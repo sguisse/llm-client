@@ -88,7 +88,7 @@ public class CodeGPTClient {
       return new Request.Builder()
           .url(BASE_URL + "/v1/chat/completions")
           .headers(Headers.of(headers))
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON))
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Unable to process request", e);
@@ -101,7 +101,7 @@ public class CodeGPTClient {
       return new Request.Builder()
           .url(BASE_URL + "/v1/code/completions")
           .headers(Headers.of(headers))
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON))
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Unable to process request", e);

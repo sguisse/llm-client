@@ -83,7 +83,7 @@ public class LlamaClient {
           .header("Cache-Control", "no-cache")
           .header("Content-Type", "application/json")
           .header("Accept", request.isStream() ? "text/event-stream" : "text/json")
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON));
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON));
       if (apiKey != null) {
         builder.header("Authorization", "Bearer " + apiKey);
       }

@@ -2,8 +2,8 @@ package ee.carlrobert.llm.client.openai.completion.request;
 
 public class OpenAIChatCompletionStandardMessage implements OpenAIChatCompletionMessage {
 
-  private final String role;
-  private final String content;
+  private String role;
+  private String content;
 
   public OpenAIChatCompletionStandardMessage(String role, String content) {
     this.role = role;
@@ -17,4 +17,13 @@ public class OpenAIChatCompletionStandardMessage implements OpenAIChatCompletion
   public String getContent() {
     return content;
   }
+
+  public void setContent(String content) {
+    this.content  = content;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
 }

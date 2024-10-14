@@ -64,7 +64,7 @@ public class OllamaClient {
   }
 
   private static RequestBody createRequestBody(Object request) throws JsonProcessingException {
-    return RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON);
+    return RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON);
   }
 
   public EventSource getCompletionAsync(

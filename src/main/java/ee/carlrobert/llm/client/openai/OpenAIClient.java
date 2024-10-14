@@ -138,7 +138,7 @@ public class OpenAIClient {
         .url(url)
         .headers(Headers.of(getHeaders()))
         .post(RequestBody.create(
-            OBJECT_MAPPER.writeValueAsString(Map.of(
+            DeserializationUtil.serializeToJson(Map.of(
                 "input", texts,
                 "model", "text-embedding-ada-002")),
             APPLICATION_JSON))
@@ -150,13 +150,14 @@ public class OpenAIClient {
     headers.put("Content-Type", "application/json");
     try {
       var overriddenPath = imageRequest.getOverriddenPath();
+      OBJECT_MAPPER
+          .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
       return new Request.Builder()
           .url(host + (overriddenPath == null ? "/v1/images/generations" : overriddenPath))
           .headers(Headers.of(headers))
           .post(RequestBody.create(
-              OBJECT_MAPPER
-                  .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                  .writeValueAsString(imageRequest),
+              DeserializationUtil.serializeToJson(imageRequest),
               APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
@@ -174,7 +175,7 @@ public class OpenAIClient {
       return new Request.Builder()
           .url(host + (overriddenPath == null ? "/v1/chat/completions" : overriddenPath))
           .headers(Headers.of(headers))
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON))
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Unable to process request", e);
@@ -190,7 +191,7 @@ public class OpenAIClient {
       return new Request.Builder()
           .url(host + "/v1/completions")
           .headers(Headers.of(headers))
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON))
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Unable to process request", e);

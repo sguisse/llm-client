@@ -72,7 +72,7 @@ public class ClaudeClient {
       return new Request.Builder()
           .url(host + "/v1/messages")
           .headers(Headers.of(headers))
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON))
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON))
           .build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Unable to process request", e);

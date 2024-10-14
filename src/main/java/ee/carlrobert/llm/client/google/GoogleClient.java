@@ -232,7 +232,7 @@ public class GoogleClient {
     try {
       Request.Builder builder = defaultRequestBuilder(
           host + format("/v1/models/%s:%s", model, path), stream)
-          .post(RequestBody.create(OBJECT_MAPPER.writeValueAsString(request), APPLICATION_JSON));
+          .post(RequestBody.create(DeserializationUtil.serializeToJson(request), APPLICATION_JSON));
       return builder.build();
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
